@@ -19,17 +19,24 @@ void setup() {
  
 void loop() {
 
-  mpu6050.getAcceleration(&ax, &ay, &az);
   
+  int g;
+  
+  mpu6050.getAcceleration(&ax, &ay, &az);
+
+g = sqrt(ax^2+ay^2+az^2);
  
-  // Affichage accel/gyro x/y/z
-  Serial.print("a/g:\t");
+  // Affichage accel x/y/z
+ /*     Serial.print("a/g:\t");
   Serial.print(ax); 
   Serial.print("\t");
   Serial.print(ay); 
   Serial.print("\t");
   Serial.print(az); 
   Serial.print("\t");
-  Serial.println("\t");
-  delay(100);  
+  Serial.println("\t");   */
+  Serial.print("g =  ");
+  Serial.println(g);
+  
+  delay(500);  
 }
