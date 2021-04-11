@@ -1,3 +1,8 @@
+// https://www.firediy.fr/article/calibrer-le-capteur-mpu6050-avec-un-arduino-drone-ch-5
+
+
+
+
 // I2Cdev and MPU6050 must be installed as libraries
 #include "I2Cdev.h"
 #include "MPU6050.h"
