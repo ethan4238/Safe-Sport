@@ -1,5 +1,3 @@
-
-
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 #include "Wire.h"
@@ -30,6 +28,7 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 Quaternion q;        // [w, x, y, z]         quaternion container
 VectorFloat gravity; // [x, y, z]            gravity vector
 float ypr[3];        // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+int16_t acc[3];        // [x, y, z]            acceleration vector
 
 volatile bool mpuInterrupt = false;     // Indicates whether MPU interrupt pin has gone high
 // ---------------------------------------------------------------------------
@@ -62,12 +61,12 @@ void setup() {
     devStatus = mpu.dmpInitialize();
 
     // MPU calibration: set YOUR offsets here.
-    mpu.setXAccelOffset(365);
-    mpu.setYAccelOffset(-4046);
-    mpu.setZAccelOffset(1554);
-    mpu.setXGyroOffset(105);
-    mpu.setYGyroOffset(96);
-    mpu.setZGyroOffset(26);
+    mpu.setXAccelOffset(-1205);
+    mpu.setYAccelOffset(-715);
+    mpu.setZAccelOffset(1355);
+    mpu.setXGyroOffset(49);
+    mpu.setYGyroOffset(-54);
+    mpu.setZGyroOffset(64);
 
     // Returns 0 if it worked
     if (devStatus == 0) {
@@ -142,19 +141,27 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+        mpu.dmpGetAccel(acc, fifoBuffer);
 
         // Print angle values in degrees.
+        
         Serial.print(ypr[YAW] * (180 / M_PI));
         Serial.print("\t");
         Serial.print(ypr[PITCH] * (180 / M_PI));
         Serial.print("\t");
         Serial.println(ypr[ROLL] * (180 / M_PI));
         
+        
         // Print gravity values.
-        Serial.print(gravity[X]);
+        Serial.print("acc[X] = ");
+        Serial.print(acc[X]);
         Serial.print("\t");
-        Serial.print(gravity[Y]);
+        Serial.print("acc[Y] = ");
+        Serial.print(acc[Y]);
         Serial.print("\t");
-        Serial.println(gravity[Z]);
+        Serial.print("acc[Z] = ");
+        Serial.print(acc[Z]);
+        Serial.print("\t");
+        Serial.print(sqrt(pow(acc[X], 2) + pow(acc[Y], 2) + pow(acc[Z], 2)));
+        
     }
-}
