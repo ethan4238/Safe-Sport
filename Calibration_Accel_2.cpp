@@ -7,6 +7,11 @@
 #define YAW      0
 #define PITCH    1
 #define ROLL     2
+
+#define X      0
+#define Y    1
+#define Z     2
+
 // --------------------- MPU650 variables ------------------------------------
 // class default I2C address is 0x68
 // specific I2C addresses may be passed as a parameter here
@@ -144,5 +149,12 @@ void loop() {
         Serial.print(ypr[PITCH] * (180 / M_PI));
         Serial.print("\t");
         Serial.println(ypr[ROLL] * (180 / M_PI));
+        
+        // Print gravity values.
+        Serial.print(gravity[X]);
+        Serial.print("\t");
+        Serial.print(gravity[Y]);
+        Serial.print("\t");
+        Serial.println(gravity[Z]);
     }
 }
